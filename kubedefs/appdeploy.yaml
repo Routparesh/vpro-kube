@@ -21,7 +21,7 @@ spec:
             [
               'sh',
               '-c',
-              'until nslookup vprodb.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for vprodb service; sleep 2; done',
+              'until nslookup vprodb-service.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for vprodb service; sleep 2; done',
             ]
         - name: init-memcached
           image: busybox:1.28
@@ -29,7 +29,7 @@ spec:
             [
               'sh',
               '-c',
-              'until nslookup vprocache01.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for vprocache01 service; sleep 2; done',
+              'until nslookup vpromc-service.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for vprocache01 service; sleep 2; done',
             ]
         - name: init-rabbitmq
           image: busybox:1.28
@@ -37,12 +37,9 @@ spec:
             [
               'sh',
               '-c',
-              'until nslookup vpromq01.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for vpromq01 service; sleep 2; done',
+              'until nslookup vprormq-service.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for vpromq01 service; sleep 2; done',
             ]
       containers:
         - name: vproapp
           image: routparesh/vproapp:latest
           imagePullPolicy: Always
-          ports:
-            - name: vproapp-port
-              containerPort: 8080 # Expose the application on port 8080

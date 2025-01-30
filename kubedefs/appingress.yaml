@@ -5,13 +5,13 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/use-regex: 'true'
 spec:
-  ingressClassname: nginx
+  ingressClassName: nginx
   rules:
     - host: vprofile.paresh.work
       http:
         paths:
           - path: /
-            pathType: Perfix
+            pathType: Prefix
             backend:
               service:
                 name: vproapp-service
