@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vprormq
+  labels:
+    app: vprormq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vprormq
+  template:
+    metadata:
+      labels:
+        app: vprormq
+    spec:
+      containers:
+        - name: vprormq
+          image: rabbitmq:latest
+          ports:
+            - name: vprormq-port
+              containerPort: 5672 # RabbitMQ default port for AMQP
+          env:
+            - name: RMQ_DEFAULT_USER # Default RabbitMQ user
+              value: 'guest'
+            - name: RMQ_DEFAULT_PASS # RabbitMQ password from a Kubernetes secret
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret # Replace with your secret name
+                  key: rmq-pass # Replace with your secret key
